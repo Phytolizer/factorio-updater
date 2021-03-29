@@ -244,7 +244,6 @@ async fn fetch_new_version(client: &Client) -> Result<LatestRelease, Error> {
     Ok(from_str(
         client
             .get("https://www.factorio.com/api/latest-releases")
-            // .query(&[("api_version", config.api_version.as_str())])
             .send()
             .await?
             .text()
