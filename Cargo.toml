@@ -13,6 +13,7 @@ regex = "*"
 serde_json = "*"
 tempfile = "*"
 thiserror = "*"
+toml = "*"
 
 [dependencies.reqwest]
 default-features = false

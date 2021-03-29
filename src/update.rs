@@ -14,7 +14,7 @@ use regex::Regex;
 use reqwest::Client;
 use serde::Deserialize;
 use serde::Serialize;
-use serde_json::from_str;
+use serde_json as json;
 
 use crate::Config;
 use crate::Error;
@@ -108,7 +108,7 @@ pub(crate) async fn get_available_versions(
     client: &Client,
     config: &Config,
 ) -> Result<AllUpdates, Error> {
-    Ok(from_str(
+    Ok(json::from_str(
         client
             .get("https://updater.factorio.com/get-available-versions")
             .query(&[
@@ -121,7 +121,7 @@ pub(crate) async fn get_available_versions(
             .await?
             .as_str(),
     )
-    .map_err(|e| Error::Json("update", e))?)
+    .map_err(|e| Error::Json("available updates as JSON", e))?)
 }
 
 pub(crate) struct UpdateStrategy(Vec<Update>);
@@ -208,8 +208,8 @@ pub(crate) async fn execute_update_strategy(
                 .await?
                 .text()
                 .await?;
-            let mut link: DownloadLink =
-                from_str(response.as_str()).map_err(|e| Error::Json("download link", e))?;
+            let mut link: DownloadLink = json::from_str(response.as_str())
+                .map_err(|e| Error::Json("download link as a JSON array", e))?;
             let link = link.0.swap_remove(0);
             let download = client.get(link.as_str()).send().await?;
             let content_disposition = download
