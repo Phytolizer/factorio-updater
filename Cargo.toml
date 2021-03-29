@@ -1,9 +1,28 @@
 [package]
-name = "factorio-update-checker"
-version = "0.1.0"
 authors = ["test <test@example.com>"]
 edition = "2018"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
+name = "factorio-update-checker"
+version = "0.1.0"
 [dependencies]
+console = "*"
+dirs = "*"
+futures-util = "*"
+indicatif = "*"
+itertools = "*"
+regex = "*"
+serde_json = "*"
+tempfile = "*"
+thiserror = "*"
+
+[dependencies.reqwest]
+default-features = false
+features = ["native-tls", "stream"]
+version = "*"
+
+[dependencies.serde]
+features = ["derive"]
+version = "*"
+
+[dependencies.tokio]
+features = ["full"]
+version = "*"
